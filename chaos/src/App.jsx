@@ -1,0 +1,37 @@
+import './App.css'
+import { Canvas } from '@react-three/fiber'
+import Experience from './components/Experience.jsx'
+import { KeyboardControls } from '@react-three/drei';
+import { Suspense, useMemo } from 'react';
+import { Physics } from '@react-three/rapier';
+ 
+export const Controls = {
+  forward: "forward",
+  back: "back",
+  left: "left",
+  right: "right"
+}
+
+function App() {
+
+  const map = useMemo(() => [
+    {name: Controls.forward, keys:["ArrowUp", "KeyW"]},
+    {name: Controls.back, keys:["ArrowDown", "KeyS"]},
+    {name: Controls.left, keys:["ArrowLeft", "KeyA"]},
+    {name: Controls.right, keys:["ArrowRight", "KeyD"]}
+  ], []);
+
+  return (
+    <KeyboardControls map={map}>
+      <Canvas camera={{ fov: 45, near: 0.1, far: 200, zoom: 50 ,position: [0,10,0]}} orthographic>
+        <Suspense>
+          <Physics debug gravity={[0, 0, 0]}>
+            <Experience />
+          </Physics>
+        </Suspense>
+      </Canvas>
+    </KeyboardControls>
+  )
+}
+
+export default App
