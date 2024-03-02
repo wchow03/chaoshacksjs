@@ -5,6 +5,8 @@ import { useRef, useState } from 'react';
 import { Controls } from '../App';
 import { RigidBody } from '@react-three/rapier';
 import Asteroid from './Asteroid.jsx';
+import Walls from './Walls.jsx'
+import { Rings } from './Rings';
 
 const Experience = () => {
   const viewport = useThree((state) => state.viewport);
@@ -65,6 +67,8 @@ const Experience = () => {
           <meshStandardMaterial color={"green"}/>
         </Box>
       </RigidBody>
+      <Walls />
+      <Rings/>
 
       {[...asteroids]}
     </>

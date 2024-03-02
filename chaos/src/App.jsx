@@ -1,6 +1,8 @@
 import './App.css'
+import { useEffect, useState } from "react";
 import { Canvas } from '@react-three/fiber'
 import Experience from './components/Experience.jsx'
+import Menu from './components/Menu.jsx'
 import { KeyboardControls } from '@react-three/drei';
 import { Suspense, useMemo } from 'react';
 import { Physics } from '@react-three/rapier';
@@ -13,6 +15,12 @@ export const Controls = {
 }
 
 function App() {
+  // Menu overlay hook
+  const [isOpen, setIsOpen] = useState(true);
+
+  const toggleOverlay = () => {
+    setIsOpen(!isOpen);
+  };
 
   const map = useMemo(() => [
     {name: Controls.forward, keys:["ArrowUp", "KeyW"]},
@@ -23,13 +31,14 @@ function App() {
 
   return (
     <KeyboardControls map={map}>
-      <Canvas camera={{ fov: 45, near: 0.1, far: 200, zoom: 50 ,position: [0,10,0]}} orthographic>
+      <Canvas camera={{zoom: 100 ,position: [0,10,0]}} orthographic>
         <Suspense>
           <Physics debug gravity={[0, 0, 0]}>
             <Experience />
           </Physics>
         </Suspense>
       </Canvas>
+      <Menu isOpen={isOpen} toggleOverlayFunction={toggleOverlay} />
     </KeyboardControls>
   )
 }
