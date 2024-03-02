@@ -8,10 +8,10 @@ const Asteroid = (props) => {
   const asteroidRef = useRef();
 
   if (asteroidRef && asteroidRef.current) {
-    asteroidRef.current.restrictTranslations(true, false, true, true);
-  }
-  useFrame((state, delta) => {
+}
+useFrame((state, delta) => {
     if (!asteroidRef || !asteroidRef.current) return;
+    asteroidRef.current.restrictTranslations(true, false, true, true);
     const impulseX = props.impulseX;
     const impulseZ = props.impulseZ;
     asteroidRef.current.applyImpulse({x: impulseX, y: 0, z: impulseZ});

@@ -21,21 +21,37 @@ const Experience = () => {
 
   const addAsteroid = ()=> {
     const asteroidCount = asteroids.length;
+    let side = Math.floor(Math.random() * 4);
+    let pos = [0,0,0];
+    let impulseX = (Math.random()-0.5)*2;
+    let impulseZ = (Math.random()-0.5)*2;
+    if (side == 0) { // left
+      pos = [-viewport.width-2, 2, (Math.random()-0.5) * viewport.height];
+      impulseX = Math.random();
+    } else if (side == 1) { // right
+      pos = [viewport.width+2, 2, (Math.random()-0.5) * viewport.height];
+      impulseX = -Math.random();
+    } else if (side == 2) { // up
+      pos = [(Math.random()-0.5) * viewport.width, 2, -viewport.height-2];
+      impulseZ = Math.random();
+    } else if (side == 3) { // down
+      pos = [(Math.random()-0.5) * viewport.width, 2, viewport.height+2];
+      impulseZ = -Math.random();
+    }
     // Push a new Asteroid element onto the asteroids state 
-    let pos = [(Math.random()-0.5) * viewport.width, 2, (Math.random()-0.5) * viewport.height];
     setAsteroids([...asteroids,
                   <Asteroid
                     key={asteroidCount}
-                    impulseX={(Math.random()-0.5)*2}
-                    impulseZ={(Math.random()-0.5)*2}
+                    impulseX={impulseX}
+                    impulseZ={impulseZ}
                     position={pos}
                   />]);
   }
 
   const objectSpeed = 0.3;
 
-  if (cubeRef && cubeRef.current) cubeRef.current.restrictTranslations(true, false, true, true);
   useFrame((state, delta) => {
+    if (cubeRef && cubeRef.current) cubeRef.current.restrictTranslations(true, false, true, true);
     state.camera.lookAt(0, 0, 0);
     if (forwardPressed) {
       cubeRef.current.applyImpulse({x:0, y: 0, z: -objectSpeed});
@@ -59,12 +75,6 @@ const Experience = () => {
       <RigidBody ref={cubeRef}>
         <Box position={[0, 2, 0]}>
           <meshStandardMaterial color={"red"}/>
-        </Box>
-      </RigidBody>
-
-      <RigidBody type='fixed'>
-        <Box position={[0, 0, 0]} args={[10, 1, 10]}>
-          <meshStandardMaterial color={"green"}/>
         </Box>
       </RigidBody>
       <Walls />
