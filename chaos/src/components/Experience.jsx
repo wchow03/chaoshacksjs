@@ -1,5 +1,5 @@
 
-import { Box, OrbitControls, useKeyboardControls } from '@react-three/drei'
+import { Cone, Box, OrbitControls, useKeyboardControls, TorusKnot } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useRef, useState } from 'react';
 import { Controls } from '../App';
@@ -60,24 +60,28 @@ const Experience = () => {
       addAsteroid();
     } else if (leftPressed) {
       cubeRef.current.applyImpulse({x: -objectSpeed, y: 0, z: 0});
+        // cubeRef.current.rotation.z -= objectSpeed;
+        // cubeRef.current.applyTorqueImpulse({x: 0, y: 0.01, z: 0});
     } else if (rightPressed) {
       cubeRef.current.applyImpulse({x: objectSpeed, y: 0, z: 0});
+        // cubeRef.current.applyTorqueImpulse({x: 0, y: -0.01, z: 0});
     }
   });
-
 
   return (
     <>
       <OrbitControls/>
       <ambientLight intensity={3}/>
       <directionalLight position={[4, 5, 6]} intensity={4}/>
-
-      <RigidBody ref={cubeRef}>
-        <Box position={[0, 2, 0]}>
-          <meshStandardMaterial color={"red"}/>
-        </Box>
-      </RigidBody>
-      <Walls />
+        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7}>
+            {/* <Cone position={[0, 1, 0]} args={[0.5, 1, 8]} rotation-x={-Math.PI/2}>
+                <meshStandardMaterial color={"red"} wireframe />
+            </Cone> */}
+            <TorusKnot position={[0, 1, 0]} args={[0.5, 0.2]} rotation-x={-Math.PI/2} >
+                <meshStandardMaterial color={"red"} />
+            </TorusKnot>
+        </RigidBody>
+        <Walls />
       <Rings/>
 
       {[...asteroids]}
