@@ -4,6 +4,7 @@ import { useFrame } from '@react-three/fiber'
 import { useRef } from 'react';
 import { Controls } from '../App';
 import { RigidBody } from '@react-three/rapier';
+import { Rings } from './Rings';
 
 const Experience = () => {
   const cubeRef = useRef();
@@ -46,6 +47,11 @@ const Experience = () => {
           <meshStandardMaterial color={"red"}/>
         </Box>
       </RigidBody>
+
+      
+      <Rings/>
+      
+      
 
       <RigidBody type='fixed'>
         <Box position={[0, 0, 0]} args={[10, 1, 10]}>
