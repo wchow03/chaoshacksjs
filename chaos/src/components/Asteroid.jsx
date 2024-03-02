@@ -19,7 +19,7 @@ const Asteroid = (props) => {
 
   return (
     <>
-      <RigidBody {...props} ref={asteroidRef}>
+      <RigidBody {...props} ref={asteroidRef} scale={0.5}>
         {/* TODO: randomize radius and maybe detail */}
         <Tetrahedron args={[1, 2]}>
             {/* TODO: set random color between 0.01-0.05 */}
