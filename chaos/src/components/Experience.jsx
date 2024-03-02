@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import { Controls } from '../App';
 import { RigidBody } from '@react-three/rapier';
 import Walls from './Walls.jsx'
+import { Rings } from './Rings';
 
 const Experience = () => {
   const cubeRef = useRef();
@@ -42,9 +43,8 @@ const Experience = () => {
             <meshStandardMaterial color={"red"}/>
         </Box>
         </RigidBody>
-
         <Walls />
-    
+      <Rings/>
     </>
   )
 }
