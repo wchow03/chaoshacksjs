@@ -23,7 +23,7 @@ function App() {
 
   return (
     <KeyboardControls map={map}>
-      <Canvas camera={{ fov: 45, near: 0.1, far: 200, zoom: 50 ,position: [0,10,0]}} orthographic>
+      <Canvas camera={{zoom: 100 ,position: [0,10,0]}} orthographic>
         <Suspense>
           <Physics debug gravity={[0, 0, 0]}>
             <Experience />

@@ -1,9 +1,10 @@
 
 import { Box, OrbitControls, useKeyboardControls } from '@react-three/drei'
-import { useFrame } from '@react-three/fiber'
+import { useFrame} from '@react-three/fiber'
 import { useRef } from 'react';
 import { Controls } from '../App';
 import { RigidBody } from '@react-three/rapier';
+import Walls from './Walls.jsx'
 
 const Experience = () => {
   const cubeRef = useRef();
@@ -32,31 +33,18 @@ const Experience = () => {
 
   return (
     <>
-      {/* <OrbitControls /> */}
-      <ambientLight intensity={3}/>
-      <directionalLight position={[4, 5, 6]} intensity={4}/>
+        <OrbitControls />
+        <ambientLight intensity={3}/>
+        <directionalLight position={[4, 5, 6]} intensity={4}/>
 
-      {/* <mesh ref={cubeRef}>
-          <boxGeometry/>
-          <meshStandardMaterial color={"red"}/>
-      </mesh> */}
-
-      <RigidBody ref={cubeRef}>
-        <Box position={[0, 2, 0]}>
-          <meshStandardMaterial color={"red"}/>
+        <RigidBody ref={cubeRef}>
+        <Box position={[0, 1, 0]}>
+            <meshStandardMaterial color={"red"}/>
         </Box>
-      </RigidBody>
+        </RigidBody>
 
-      <RigidBody type='fixed'>
-        <Box position={[0, 0, 0]} args={[10, 1, 10]}>
-          <meshStandardMaterial color={"green"}/>
-        </Box>
-      </RigidBody>
-
-      {/* <mesh scale={10} position-y={-0.5} rotation-x={-Math.PI/2}>
-        <planeGeometry />
-        <meshStandardMaterial color={"green"}/>
-      </mesh> */}
+        <Walls />
+    
     </>
   )
 }
