@@ -18,6 +18,7 @@ const Asteroid = (props) => {
 //   }, []);
 useEffect(() => {
   if (asteroidRef.current) {
+    asteroidRef.current.restrictTranslations(true, false, true, true);
     const impulseX = props.impulseX;
     const impulseZ = props.impulseZ;
     asteroidRef.current.addForce({x: impulseX, y: 0, z: impulseZ});
@@ -30,6 +31,8 @@ useEffect(() => {
       <RigidBody {...props}
          ref={asteroidRef} 
          scale={0.5} 
+         colliders="ball"
+         scale={0.5+Math.random()}
         //  applyImpulse={{x: 0.5, y: 0.5, z:0.5}}
          >
         {/* TODO: randomize radius and maybe detail */}

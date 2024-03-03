@@ -8,17 +8,17 @@ const Walls = () => {
 
     return (
     <group>
-            <RigidBody type='fixed' scale={[viewport.width/5, 1, viewport.height/5]}>
-                <Box position={[0, 0, 0]} args={[10, 1, 10]}>
+            {/* <RigidBody type='fixed' scale={[viewport.width, 1, viewport.height]}>
+                <Box position={[0, 0.5, 0]} args={[10, 1, 10]}>
                 <meshStandardMaterial color={"green"}/>
                 </Box>
             </RigidBody>
 
-            <RigidBody type='fixed' scale={[viewport.width/5, 1, viewport.height/5]}>
-                <Box position={[0, 4, 0]} args={[10, 1, 10]}>
+            <RigidBody type='fixed' scale={[viewport.width, 1, viewport.height]}>
+                <Box position={[0, 3.5, 0]} args={[10, 1, 10]}>
                 <meshStandardMaterial transparent opacity={0}/>
                 </Box>
-            </RigidBody>
+            </RigidBody> */}
 
             <RigidBody type='fixed' scale={[1, 1, viewport.height/5]} colliders={false}>
                 <Box position={[-viewport.width-0.25, 2, 0]} args={[0.5, 5, 10]}>
