@@ -13,13 +13,15 @@ export const Rings = () => {
   });
 
   return (
-    <RigidBody>
+    <RigidBody name={"Torus"} type={"static"} onCollisionEnter={({manifold, target, other}) => {
+      other.linvel *= 2;
+    }}>
       <Torus
         ref={ref}
         args={[0.5, 0.1, 16, 100]} // Radius, tube radius, radial segments, tubular segments
-        position={[10, 4, 0]}
+        position={[10, 2, 0]}
       >
-        <meshStandardMaterial color="red" side={THREE.DoubleSide} />
+        <meshStandardMaterial color="yellow" side={THREE.DoubleSide} />
       </Torus>
     </RigidBody>
   );

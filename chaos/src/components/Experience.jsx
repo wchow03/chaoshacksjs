@@ -1,5 +1,5 @@
 
-import { Cone, Box, OrbitControls, useKeyboardControls, TorusKnot } from '@react-three/drei'
+import { Cone, Box, OrbitControls, useKeyboardControls, TorusKnot, Stars } from '@react-three/drei'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef, useState } from 'react';
 import { Controls } from '../App';
@@ -29,17 +29,17 @@ const Experience = ({isGameOver, setGameOver}) => {
     let impulseX = (Math.random()-0.5)*2;
     let impulseZ = (Math.random()-0.5)*2;
     if (side == 0) { // left
-      pos = [-viewport.width-2, 2, (Math.random()-0.5) * viewport.height];
-      impulseX = Math.random();
+      pos = [-viewport.width-2-Math.random()*viewport.width/2, 2, (Math.random()-0.5) * viewport.height];
+      impulseX = 0.5+Math.random()*10;
     } else if (side == 1) { // right
-      pos = [viewport.width+2, 2, (Math.random()-0.5) * viewport.height];
-      impulseX = -Math.random();
+      pos = [viewport.width+2+Math.random()*viewport.width/2, 2, (Math.random()-0.5) * viewport.height];
+      impulseX = -0.5-Math.random()*10;
     } else if (side == 2) { // up
-      pos = [(Math.random()-0.5) * viewport.width, 2, -viewport.height-2];
-      impulseZ = Math.random();
+      pos = [(Math.random()-0.5) * viewport.width, 2, -viewport.height-2-Math.random()*viewport.height/2];
+      impulseZ = 0.5+Math.random()*10;
     } else if (side == 3) { // down
-      pos = [(Math.random()-0.5) * viewport.width, 2, viewport.height+2];
-      impulseZ = -Math.random();
+      pos = [(Math.random()-0.5) * viewport.width, 2, viewport.height+2+Math.random()*viewport.height/2];
+      impulseZ = -0.5-Math.random()*10;
     }
     // asteroids.push({impulseX: impulseX, impulseZ: impulseZ, pos: pos, asteroidCount: asteroidCount});
 
@@ -50,7 +50,7 @@ const Experience = ({isGameOver, setGameOver}) => {
                     impulseX={impulseX}
                     impulseZ={impulseZ}
                     position={pos}
-                    col={Math.random()*0.06}
+                    col={0.05+Math.random()*0.06}
                   />]);
     }
 
@@ -79,16 +79,16 @@ const Experience = ({isGameOver, setGameOver}) => {
       cubeRef.current.applyImpulse({x: objectSpeed, y: 0, z: 0});
       addAsteroid();
     }
-    if (cubeRef.current.translation().x <= -viewport.width) {
+    if (cubeRef.current.translation().x <= -viewport.width/2) {
       setGameOver(true);
       window.location.reload();
-    } else if (cubeRef.current.translation().x >= viewport.width) {
+    } else if (cubeRef.current.translation().x >= viewport.width/2) {
       setGameOver(true);
       window.location.reload();
-    } else if (cubeRef.current.translation().z <= -viewport.height) {
+    } else if (cubeRef.current.translation().z <= -viewport.height/2) {
       setGameOver(true);
       window.location.reload();
-    } else if (cubeRef.current.translation().z >= viewport.height) {
+    } else if (cubeRef.current.translation().z >= viewport.height/2) {
       setGameOver(true);
       window.location.reload();
     }
@@ -97,11 +97,13 @@ const Experience = ({isGameOver, setGameOver}) => {
   return (
     <>
       <OrbitControls/>
-      <ambientLight intensity={3}/>
+      <ambientLight intensity={4.5}/>
       <directionalLight position={[4, 5, 6]} intensity={4}/>
-        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7} colliders="hull" onCollisionEnter={() => {
+        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7} colliders="hull" onCollisionEnter={({ manifold, target, other }) => {
+          if (other.rigidBodyObject.name != "Torus") {
           setGameOver(true);
           window.location.reload();
+          }
         }}>
             {/* <Cone position={[0, 1, 0]} args={[0.5, 1, 8]} rotation-x={-Math.PI/2}>
                 <meshStandardMaterial color={"red"} wireframe />
@@ -113,6 +115,7 @@ const Experience = ({isGameOver, setGameOver}) => {
         <Walls />
         <AsteroidWalls />
       <Rings/>
+      <Stars count={100000}/>
 
       {/* {asteroids.map((a) =>
       (<Asteroid

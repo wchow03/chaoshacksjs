@@ -31,9 +31,9 @@ function App() {
 
   return (
     <KeyboardControls map={map}>
-      <Canvas camera={{zoom: 100 ,position: [0,10,0]}} orthographic>
+      <Canvas camera={{zoom: 50 ,position: [0,10,0]}} style={{background: 'black'}} orthographic>
         <Suspense>
-          <Physics debug gravity={[0, 0, 0]}>
+          <Physics gravity={[0, 0, 0]}>
             <Experience isGameOver={isOpen} setGameOver={setIsOpen}/>
           </Physics>
         </Suspense>
