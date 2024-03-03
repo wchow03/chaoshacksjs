@@ -29,8 +29,7 @@ useEffect(() => {
   return (
     <>
       <RigidBody {...props}
-         ref={asteroidRef} 
-         scale={0.5} 
+         ref={asteroidRef}
          colliders="ball"
          scale={0.5+Math.random()}
         //  applyImpulse={{x: 0.5, y: 0.5, z:0.5}}
@@ -38,7 +37,7 @@ useEffect(() => {
         {/* TODO: randomize radius and maybe detail */}
         <Tetrahedron args={[1, 2]}>
             {/* TODO: set random color between 0.01-0.05 */}
-          <meshStandardMaterial color={[0.01, 0.01, 0.01]}/>
+          <meshStandardMaterial color={[props.col, props.col, props.col]}/>
         </Tetrahedron>
       </RigidBody>
     </>

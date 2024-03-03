@@ -9,7 +9,7 @@ import Walls from './Walls.jsx'
 import { Rings } from './Rings';
 import AsteroidWalls from './AsteroidWalls.jsx';
 
-const Experience = () => {
+const Experience = ({isGameOver, setGameOver}) => {
   const viewport = useThree((state) => state.viewport);
   const cubeRef = useRef();
 
@@ -19,9 +19,11 @@ const Experience = () => {
   const rightPressed = useKeyboardControls((state) => state[Controls.right]);
 
   const [asteroids, setAsteroids] = useState([])
+  // let asteroids = [];
 
   const addAsteroid = ()=> {
     const asteroidCount = asteroids.length;
+    if (asteroidCount >= 50) return;
     let side = Math.floor(Math.random() * 4);
     let pos = [0,0,0];
     let impulseX = (Math.random()-0.5)*2;
@@ -39,15 +41,20 @@ const Experience = () => {
       pos = [(Math.random()-0.5) * viewport.width, 2, viewport.height+2];
       impulseZ = -Math.random();
     }
+    // asteroids.push({impulseX: impulseX, impulseZ: impulseZ, pos: pos, asteroidCount: asteroidCount});
+
     // Push a new Asteroid element onto the asteroids state 
     setAsteroids([...asteroids,
                   <Asteroid
-                    key={i}
+                    key={asteroidCount}
                     impulseX={impulseX}
                     impulseZ={impulseZ}
                     position={pos}
+                    col={Math.random()*0.06}
                   />]);
     }
+
+    
 
   const objectSpeed = 0.3;
 
@@ -55,22 +62,35 @@ const Experience = () => {
     if (cubeRef.current) {
       cubeRef.current.restrictTranslations(true, false, true, true);
     }
-    addAsteroid();
   }, []);
 
   useFrame((state, delta) => {
     state.camera.lookAt(0, 0, 0);
     if (forwardPressed) {
       cubeRef.current.applyImpulse({x:0, y: 0, z: -objectSpeed});
+      addAsteroid();
     } else if (backPressed) {
       cubeRef.current.applyImpulse({x:0, y: 0, z: objectSpeed});
+      addAsteroid();
     } else if (leftPressed) {
       cubeRef.current.applyImpulse({x: -objectSpeed, y: 0, z: 0});
-        // cubeRef.current.rotation.z -= objectSpeed;
-        // cubeRef.current.applyTorqueImpulse({x: 0, y: 0.01, z: 0});
+      addAsteroid();
     } else if (rightPressed) {
       cubeRef.current.applyImpulse({x: objectSpeed, y: 0, z: 0});
-        // cubeRef.current.applyTorqueImpulse({x: 0, y: -0.01, z: 0});
+      addAsteroid();
+    }
+    if (cubeRef.current.translation().x <= -viewport.width) {
+      setGameOver(true);
+      window.location.reload();
+    } else if (cubeRef.current.translation().x >= viewport.width) {
+      setGameOver(true);
+      window.location.reload();
+    } else if (cubeRef.current.translation().z <= -viewport.height) {
+      setGameOver(true);
+      window.location.reload();
+    } else if (cubeRef.current.translation().z >= viewport.height) {
+      setGameOver(true);
+      window.location.reload();
     }
   });
 
@@ -79,7 +99,10 @@ const Experience = () => {
       <OrbitControls/>
       <ambientLight intensity={3}/>
       <directionalLight position={[4, 5, 6]} intensity={4}/>
-        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7} colliders="hull">
+        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7} colliders="hull" onCollisionEnter={() => {
+          setGameOver(true);
+          window.location.reload();
+        }}>
             {/* <Cone position={[0, 1, 0]} args={[0.5, 1, 8]} rotation-x={-Math.PI/2}>
                 <meshStandardMaterial color={"red"} wireframe />
             </Cone> */}
@@ -91,6 +114,14 @@ const Experience = () => {
         <AsteroidWalls />
       <Rings/>
 
+      {/* {asteroids.map((a) =>
+      (<Asteroid
+        key={a.asteroidCount}
+        impulseX={a.impulseX}
+        impulseZ={a.impulseZ}
+        position={a.pos}
+        col={Math.random()*0.06}
+      />))} */}
       {[...asteroids]}
     </>
   )

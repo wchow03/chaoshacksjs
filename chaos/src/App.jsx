@@ -34,7 +34,7 @@ function App() {
       <Canvas camera={{zoom: 100 ,position: [0,10,0]}} orthographic>
         <Suspense>
           <Physics debug gravity={[0, 0, 0]}>
-            <Experience />
+            <Experience isGameOver={isOpen} setGameOver={setIsOpen}/>
           </Physics>
         </Suspense>
       </Canvas>
