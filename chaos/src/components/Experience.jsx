@@ -96,10 +96,10 @@ const Experience = ({isGameOver, setGameOver}) => {
 
   return (
     <>
-      <OrbitControls/>
+      {/* <OrbitControls/> */}
       <ambientLight intensity={4.5}/>
       <directionalLight position={[4, 5, 6]} intensity={4}/>
-        <RigidBody ref={cubeRef} colliders={"cuboid"} scale={0.7} colliders="hull" onCollisionEnter={({ manifold, target, other }) => {
+        <RigidBody ref={cubeRef} colliders={"hull"} scale={0.7} colliders="hull" onCollisionEnter={({ manifold, target, other }) => {
           if (other.rigidBodyObject.name != "Torus") {
           setGameOver(true);
           window.location.reload();
