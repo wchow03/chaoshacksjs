@@ -67,16 +67,16 @@ const Experience = ({isGameOver, setGameOver}) => {
   useFrame((state, delta) => {
     state.camera.lookAt(0, 0, 0);
     if (forwardPressed) {
-      cubeRef.current.applyImpulse({x:0, y: 0, z: -objectSpeed});
+      cubeRef.current.applyImpulse({x:0, y: 0, z: -delta*10});
       addAsteroid();
     } else if (backPressed) {
-      cubeRef.current.applyImpulse({x:0, y: 0, z: objectSpeed});
+      cubeRef.current.applyImpulse({x:0, y: 0, z: delta*10});
       addAsteroid();
     } else if (leftPressed) {
-      cubeRef.current.applyImpulse({x: -objectSpeed, y: 0, z: 0});
+      cubeRef.current.applyImpulse({x: -delta*10, y: 0, z: 0});
       addAsteroid();
     } else if (rightPressed) {
-      cubeRef.current.applyImpulse({x: objectSpeed, y: 0, z: 0});
+      cubeRef.current.applyImpulse({x: delta*10, y: 0, z: 0});
       addAsteroid();
     }
     if (cubeRef.current.translation().x <= -viewport.width/2) {
@@ -96,7 +96,7 @@ const Experience = ({isGameOver, setGameOver}) => {
 
   return (
     <>
-      {/* <OrbitControls/> */}
+      <OrbitControls/>
       <ambientLight intensity={4.5}/>
       <directionalLight position={[4, 5, 6]} intensity={4}/>
         <RigidBody ref={cubeRef} colliders={"hull"} scale={0.7} colliders="hull" onCollisionEnter={({ manifold, target, other }) => {
@@ -115,7 +115,7 @@ const Experience = ({isGameOver, setGameOver}) => {
         <Walls />
         <AsteroidWalls />
       <Rings/>
-      <Stars count={100000}/>
+      <Stars count={50000}/>
 
       {/* {asteroids.map((a) =>
       (<Asteroid
